@@ -166,11 +166,61 @@
 // export default TopicForm;
 
 
+// import React, { useState } from "react";
+// import { motion } from "framer-motion";
+// import { useDispatch, useSelector } from "react-redux";
+// import { setUserData } from "../redux/userSlice";
+// import { generateNotes } from "../services/api";
+
+// function TopicForm({ setResult, setLoading, loading, setError }) {
+//   const [topic, setTopic] = useState("");
+//   const [classLevel, setClassLevel] = useState("");
+//   const [examType, setExamType] = useState("");
+//   const [revisionMode, setRevisionMode] = useState(false);
+//   const [includeDiagram, setIncludeDiagram] = useState(false);
+//   const [includeChart, setIncludeChart] = useState(false);
+
+//   const dispatch = useDispatch();
+//   const userData = useSelector((state) => state?.user?.userData);
+
+//   const handleSubmit = async () => {
+//     if (!topic.trim()) {
+//       setError("Please enter the topic");
+//       return;
+//     }
+//     setError("");
+//     setLoading(true);
+//     setResult(null);
+//     try {
+//       const result = await generateNotes({
+//         topic,
+//         classLevel,
+//         examType,
+//         revisionMode,
+//         includeDiagram,
+//         includeChart,
+//       });
+//       setResult(result);
+
+//       // ✅ Update credits in Redux so Navbar reflects new value
+//       if (result?.creditsLeft !== undefined) {
+//         dispatch(setUserData({ ...userData, credits: result.creditsLeft }));
+//       }
+
+//       setLoading(false);
+//     } catch (error) {
+//       console.log(error);
+//       setError("Failed to fetch notes from server");
+//       setLoading(false);
+//     }
+//   };
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../redux/userSlice";
 import { generateNotes } from "../services/api";
+import { getAuth } from "firebase/auth"; // 👈 ADD THIS
 
 function TopicForm({ setResult, setLoading, loading, setError }) {
   const [topic, setTopic] = useState("");
@@ -192,17 +242,30 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
     setLoading(true);
     setResult(null);
     try {
-      const result = await generateNotes({
-        topic,
-        classLevel,
-        examType,
-        revisionMode,
-        includeDiagram,
-        includeChart,
-      });
+      // 👇 ADD THIS - get Firebase token
+      const auth = getAuth();
+      const token = await auth.currentUser?.getIdToken();
+
+      if (!token) {
+        setError("You are not logged in. Please login first.");
+        setLoading(false);
+        return;
+      }
+
+      const result = await generateNotes(
+        {
+          topic,
+          classLevel,
+          examType,
+          revisionMode,
+          includeDiagram,
+          includeChart,
+        },
+        token // 👈 pass token to api call
+      );
+
       setResult(result);
 
-      // ✅ Update credits in Redux so Navbar reflects new value
       if (result?.creditsLeft !== undefined) {
         dispatch(setUserData({ ...userData, credits: result.creditsLeft }));
       }
