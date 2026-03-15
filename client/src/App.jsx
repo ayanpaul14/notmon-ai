@@ -7,8 +7,7 @@ import Notes from "./pages/Notes";
 import Pricing from "./pages/Pricing";
 import { getCurrentUser } from "./services/api";
 import { useDispatch, useSelector } from "react-redux";
-
-export const serverUrl = "http://localhost:8000";
+export const serverUrl = "https://notmon-ai.onrender.com";
 
 function App() {
 
