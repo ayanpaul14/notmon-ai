@@ -368,7 +368,7 @@ import { motion, AnimatePresence } from "motion/react";
 import logo from "../assets/NotmonAI_logo.svg";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { serverUrl } from "../App";
+import { serverUrl } from "../config";
 import { useNavigate } from "react-router-dom";
 import { setUserData } from "../redux/userSlice";
 

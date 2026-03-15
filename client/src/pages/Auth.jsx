@@ -369,7 +369,7 @@ import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { serverUrl } from "../App";
+import { serverUrl } from "../config";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice";
 import logo from "../assets/NotmonAI_logo.svg";

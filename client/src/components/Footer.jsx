@@ -256,7 +256,7 @@ import logo from "../assets/NotmonAI_logo.svg"
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { serverUrl } from "../App"
+import { serverUrl } from "../config"
 import { setUserData } from "../redux/userSlice";
 
 const socials = [
