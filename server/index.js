@@ -13,18 +13,17 @@ const PORT = process.env.PORT || 8000;
 
 const app = express();
 
+app.use(cookieParser());
+
 app.use(cors(
     {
-        origin: ["https://notmon-ai.vercel.app", "http://localhost:5173"],
+        origin: ["https://notmon-ai.vercel.app"],
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     }
 ))
 
 app.use(express.json());
-app.use(cookieParser());
-
-
 
 app.get("/", (req, res) => {
     res.json({"message": "ExamNotes AI is running 🚀"});
