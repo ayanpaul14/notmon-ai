@@ -35,7 +35,7 @@
 import axios from "axios";
 import { serverUrl } from "../App";
 import { setUserData } from "../redux/userSlice";
-
+axios.defaults.withCredentials = true; // 👈 belongs here
 // 👇 Create a single axios instance with credentials always enabled
 const api = axios.create({
   baseURL: serverUrl,
