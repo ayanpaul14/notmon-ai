@@ -1,5 +1,3 @@
-import axios from "axios";
-axios.defaults.withCredentials = true;
 import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
@@ -9,7 +7,9 @@ import Notes from "./pages/Notes";
 import Pricing from "./pages/Pricing";
 import { getCurrentUser } from "./services/api";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 export const serverUrl = "https://notmon-ai.onrender.com";
+axios.defaults.withCredentials = true;
 
 function App() {
 
