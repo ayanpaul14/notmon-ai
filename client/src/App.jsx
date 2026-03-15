@@ -8,6 +8,7 @@ import Pricing from "./pages/Pricing";
 import { getCurrentUser } from "./services/api";
 import { useDispatch, useSelector } from "react-redux";
 export const serverUrl = "https://notmon-ai.onrender.com";
+import axios from "axios";
 
 function App() {
 
@@ -52,5 +53,5 @@ function App() {
     </Routes>
   );
 }
-
+axios.defaults.withCredentials = true;
 export default App;

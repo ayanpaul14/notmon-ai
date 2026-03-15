@@ -15,11 +15,12 @@ export const googleAuth = async (req, res) => {
 
         const token = await getToken(user._id);
 
-       res.cookie("token", token, {
+   res.cookie("token", token, {
+    path: "/",
     httpOnly: true,
-    secure: true,
+    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     sameSite: "none",
-    maxAge: 7 * 24 * 60 * 60 * 1000
+    secure: true,
 });
 
         return res.status(200).json({ user, token });
