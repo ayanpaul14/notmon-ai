@@ -1,99 +1,40 @@
-// const Gemini_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
-
-// export const generateGeminiResponse = async (prompt) => {  // ✅ fixed
-//     try {
-//         const response = await fetch(`${Gemini_URL}?key=${process.env.GEMINI_API_KEY}`, {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify({
-//                 contents: [
-//                     {
-//                         parts: [
-//                             {
-//                                 text: prompt
-//                             }
-//                         ]
-//                     }
-//                 ]
-//             })
-//         })
-
-//         if (!response.ok) {
-//             const err = await response.text();
-//             throw new Error(err);
-//         }
-
-//         const data = await response.json()
-//         const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-//         if (!text) {
-//             throw new Error("No text returned from Gemini");
-//         }
-
-//         const cleanText = text
-//             .replace(/```json/g, "")
-//             .replace(/```/g, "")
-//             .trim();
-
-//         return JSON.parse(cleanText);
-
-//     } catch (error) {
-//         console.error("FULL GEMINI ERROR:", error.message);
-//         throw new Error("Gemini API fetch failed");
-//     }
-// }
-
-const Gemini_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 export const generateGeminiResponse = async (prompt) => {
     try {
-        const response = await fetch(`${Gemini_URL}?key=${process.env.GEMINI_API_KEY}`, {
+        const response = await fetch(GROQ_URL, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${process.env.GEMINI_API_KEY}`
             },
             body: JSON.stringify({
-                contents: [
-                    {
-                        parts: [
-                            {
-                                text: prompt
-                            }
-                        ]
-                    }
-                ]
+                model: "llama-3.3-70b-versatile",
+                messages: [{ role: "user", content: prompt }],
+                max_tokens: 1024
             })
-        })
+        });
 
         if (!response.ok) {
             const err = await response.text();
             throw new Error(err);
         }
 
-        const data = await response.json()
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        const data = await response.json();
+        const text = data.choices?.[0]?.message?.content;
 
-        if (!text) {
-            throw new Error("No text returned from Gemini");
-        }
+        if (!text) throw new Error("No text returned from Groq");
 
-        const cleanText = text
-            .replace(/```json/g, "")
-            .replace(/```/g, "")
-            .trim();
+        const cleanText = text.replace(/```json/g, "").replace(/```/g, "").trim();
 
-        // 👇 THE FIX - don't assume Gemini returns JSON
         try {
             return JSON.parse(cleanText);
-        } catch (parseError) {
-            console.error("JSON parse failed, returning raw text");
-            return cleanText; // 👈 return as plain text if not valid JSON
+        } catch {
+            return cleanText;
         }
 
     } catch (error) {
-        console.error("FULL GEMINI ERROR:", error.message);
-        throw new Error("Gemini API fetch failed");
+        console.error("GROQ ERROR:", error.message);
+        throw new Error(`Groq API failed: ${error.message}`);
     }
-}
+};

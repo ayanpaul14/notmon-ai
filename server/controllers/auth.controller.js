@@ -2,8 +2,7 @@ import UserModel from "../models/usermodel.js";
 import { getToken } from "../utils/token.js";
 
 export const googleAuth = async (req, res) => {
-    try {
-        console.log("JWT_SECRET:", process.env.JWT_SECRET);
+    try{
 
         const { name, email } = req.body;
 
@@ -15,13 +14,13 @@ export const googleAuth = async (req, res) => {
 
         const token = await getToken(user._id);
 
-   res.cookie("token", token, {
-    path: "/",
-    httpOnly: true,
-    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    sameSite: "none",
-    secure: false,
-});
+        res.cookie("token", token, {
+            path: "/",
+            httpOnly: true,
+            expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            secure: process.env.NODE_ENV === "development",
+        });
 
         return res.status(200).json({ user, token });
 
