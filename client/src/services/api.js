@@ -8,6 +8,18 @@ const api = axios.create({
   withCredentials: true,
 });
 
+// Interceptor to inject JWT token if cookies are blocked by browser third-party policies
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 export const getCurrentUser = async (dispatch) => {
   try {
     const result = await api.get("/api/user/currentuser");

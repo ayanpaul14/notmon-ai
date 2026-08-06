@@ -39,6 +39,9 @@ function Auth() {
         { name: user.displayName, email: user.email },
         { withCredentials: true }
       );
+      if (result.data.token) {
+        localStorage.setItem("token", result.data.token);
+      }
       dispatch(setUserData(result.data.user));
       navigate("/notes");
     } catch (error) {

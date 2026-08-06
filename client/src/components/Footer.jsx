@@ -50,6 +50,7 @@ function Footer() {
   const handleSignOut = async () => {
     try {
       await axios.post(serverUrl + "/api/auth/logout", {}, { withCredentials: true });
+      localStorage.removeItem("token");
       dispatch(setUserData(null));
       navigate("/auth");
     } catch (error) {
