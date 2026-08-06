@@ -6,12 +6,12 @@ export const generateGeminiResponse = async (prompt) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${process.env.GEMINI_API_KEY}`
+                "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
             },
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
                 messages: [{ role: "user", content: prompt }],
-                max_tokens: 1024
+                max_tokens: 3000
             })
         });
 

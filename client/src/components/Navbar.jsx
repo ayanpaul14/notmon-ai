@@ -34,34 +34,43 @@ function Navbar() {
       initial={{ opacity: 0, y: -15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="relative z-20 mx-4 sm:mx-6 mt-6
-      rounded-2xl bg-black border border-white/10
-      shadow-[0_22px_55px_rgba(0,0,0,0.75)]
-      flex items-center justify-between px-4 sm:px-8 py-4"
+      className="relative z-20 mx-3 sm:mx-6 mt-4 sm:mt-6
+      rounded-2xl bg-white/4 backdrop-blur-xl border border-white/10
+      shadow-[0_8px_32px_rgba(0,0,0,0.4)]
+      flex items-center justify-between px-3 sm:px-8 py-3 sm:py-4"
     >
-      {/* LEFT */}
-      <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
-        <img src={logo} alt="Notmon AI" className="w-20 h-20" />
-        <span className="text-2xl font-bold text-white tracking-wide">
+      {/* LEFT — Logo */}
+      <div className="flex items-center gap-2 sm:gap-3 cursor-pointer" onClick={() => navigate("/")}>
+        <img src={logo} alt="Notmon AI" className="w-10 h-10 sm:w-20 sm:h-20" />
+        <span className="text-lg sm:text-2xl font-bold text-white tracking-wide">
           Notmon <span className="text-gray-400">AI</span>
         </span>
       </div>
 
       {/* RIGHT */}
-      <div className="flex items-center gap-3 sm:gap-4 relative">
+      <div className="flex items-center gap-2 sm:gap-4 relative">
+
+        {/* Streak & XP Widget */}
+        {userData && (
+          <div className="flex items-center gap-1.5 sm:gap-3 bg-teal-500/10 border border-teal-500/20 px-2.5 sm:px-3.5 py-1.5 rounded-full text-xs sm:text-sm text-teal-400 font-medium">
+            <span title="Daily study streak">🔥 {userData?.streak || 0}</span>
+            <span className="h-3 w-px bg-teal-500/20 hidden sm:inline" />
+            <span className="hidden sm:inline" title="Experience Points">⚡ {userData?.xp || 0} XP</span>
+          </div>
+        )}
 
         {/* CREDIT BUTTON */}
         <div className="relative">
           <motion.div
             onClick={() => { setShowCredits(!showCredits); setShowProfile(false); }}
             whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
-            className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full
+            className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 rounded-full
             bg-white/10 border border-white/20 text-white text-sm shadow-md cursor-pointer"
           >
             <span className="text-lg sm:text-xl">💎</span>
-            <span>{credits}</span>
+            <span className="text-xs sm:text-sm">{credits}</span>
             <motion.span whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.97 }}
-              className="ml-1 sm:ml-2 h-5 w-5 flex items-center justify-center rounded-full bg-white text-black text-xs font-bold">
+              className="ml-1 h-5 w-5 flex items-center justify-center rounded-full bg-white text-black text-xs font-bold">
               ➕
             </motion.span>
           </motion.div>
@@ -73,7 +82,7 @@ function Navbar() {
                 animate={{ opacity: 1, y: 10, scale: 1 }}
                 exit={{ opacity: 0, y: -10, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
-                className="absolute right-0 mt-4 w-60 rounded-xl bg-black/95 backdrop-blur-xl
+                className="absolute right-0 mt-4 w-56 sm:w-60 rounded-xl bg-black/95 backdrop-blur-xl
                 border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.7)] p-4 text-white"
               >
                 <h3 className="font-semibold mb-2">Buy Credits</h3>
@@ -94,10 +103,10 @@ function Navbar() {
           <motion.div
             onClick={() => { setShowProfile(!showProfile); setShowCredits(false); }}
             whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.97 }}
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full
             bg-gradient-to-br from-gray-700 to-gray-900
             border border-white/20 flex items-center justify-center
-            text-white font-semibold cursor-pointer"
+            text-white font-semibold cursor-pointer text-sm"
           >
             {initial}
           </motion.div>
@@ -117,11 +126,11 @@ function Navbar() {
                   <p className="text-xs text-gray-400 truncate">{userData?.email}</p>
                 </div>
                 <button onClick={() => { setShowProfile(false); navigate("/history"); }}
-                  className="w-full text-left px-3 py-2 rounded-lg hover:bg-white/10">
+                  className="w-full text-left px-3 py-2 rounded-lg hover:bg-white/10 text-sm">
                   History
                 </button>
                 <button onClick={handleSignOut}
-                  className="w-full text-left px-3 py-2 rounded-lg hover:bg-red-500/20 text-red-400">
+                  className="w-full text-left px-3 py-2 rounded-lg hover:bg-red-500/20 text-red-400 text-sm">
                   Sign Out
                 </button>
               </motion.div>

@@ -19,7 +19,7 @@ export const googleAuth = async (req, res) => {
             httpOnly: true,
             expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
             sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-            secure: process.env.NODE_ENV === "development",
+            secure: process.env.NODE_ENV === "production",
         });
 
         return res.status(200).json({ user, token });

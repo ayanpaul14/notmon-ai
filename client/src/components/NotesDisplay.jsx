@@ -33,6 +33,7 @@ export default function NotesDisplay({ result }) {
     diagram,
     questions = {},
     revisionPoints = [],
+    suggestedVideos = [],
   } = data || {};
 
   // ─── PDF Download ──────────────────────────────────────────────
@@ -234,6 +235,36 @@ const handleDownloadPDF = () => {
                 {typeof c === "object" ? JSON.stringify(c, null, 2) : c}
               </pre>
             ))}
+          </Section>
+        )}
+
+        {/* YouTube Suggested Videos */}
+        {suggestedVideos?.length > 0 && (
+          <Section title="🎥 Recommended One-Shot Lectures">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {suggestedVideos.map((video, idx) => (
+                <a
+                  key={idx}
+                  href={video.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-teal-500/30 hover:bg-white/8 transition group"
+                >
+                  <div className="w-12 h-12 shrink-0 rounded-lg bg-red-500/10 flex items-center justify-center text-red-500 text-2xl group-hover:scale-110 transition-transform">
+                    🔺
+                  </div>
+                  <div>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-teal-500/20 text-teal-400">
+                      {video.language}
+                    </span>
+                    <h4 className="text-sm font-semibold text-white mt-1 group-hover:text-teal-400 transition-colors line-clamp-1">
+                      {video.title}
+                    </h4>
+                    <p className="text-xs text-gray-500 mt-0.5">Click to search on YouTube →</p>
+                  </div>
+                </a>
+              ))}
+            </div>
           </Section>
         )}
 

@@ -24,7 +24,24 @@ const userSchema = new mongoose.Schema({
     notes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Notes"
-    }]
+    }],
+    // ── Streak & Gamification ──────────────────────────
+    streak: {
+        type: Number,
+        default: 0
+    },
+    lastActiveDate: {
+        type: String,   // stored as "YYYY-MM-DD" for easy date comparison
+        default: null
+    },
+    xp: {
+        type: Number,
+        default: 0
+    },
+    totalNotes: {
+        type: Number,
+        default: 0
+    }
 }, { timestamps: true })
 
 const UserModel = mongoose.model("UserModel", userSchema)

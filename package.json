@@ -1,5 +1,10 @@
 {
-  "dependencies": {
-    "mongoose": "^9.2.1"
+  "name": "notmon-ai",
+  "version": "1.0.0",
+  "description": "AI-powered exam notes generator",
+  "scripts": {
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "start": "cd server && npm start"
   }
 }

@@ -5,6 +5,7 @@ import Auth from "./pages/Auth";
 import History from "./pages/History";
 import Notes from "./pages/Notes";
 import Pricing from "./pages/Pricing";
+import SharedNote from "./pages/SharedNote";
 import { getCurrentUser } from "./services/api";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,8 +18,6 @@ function App() {
   }, [dispatch]);
 
   const userData = useSelector((state) => state?.user?.userData);
-
-  console.log(userData);
 
   return (
     <Routes>
@@ -46,6 +45,11 @@ function App() {
       <Route
         path="/pricing"
         element={userData ? <Pricing /> : <Navigate to="/auth" replace />}
+      />
+
+      <Route
+        path="/shared/:shareId"
+        element={<SharedNote />}
       />
 
     </Routes>
